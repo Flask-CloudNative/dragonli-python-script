@@ -12,7 +12,8 @@ def api_script():
     parameter = Parameter(request)
 
     if parameter.method == 'GET':
-        return json.dumps(parameter.param_url, ensure_ascii=False), 200, []
+        response = db.find_paging(parameter)
+        return response
 
     elif parameter.method == 'POST':
         if parameter.verification(checking=parameter.param_json, verify={'title': str, 'script': str}):
