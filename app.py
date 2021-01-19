@@ -18,15 +18,11 @@ def api_script():
         return response
 
     elif parameter.method == 'POST':
-        if parameter.verification(checking=parameter.param_json, verify={'title': str, 'script': str}):
-            param = parameter.param_json
-            insert_dict = {'title': param['title'], 'script': param['script']}
-            if db.write_one_docu(docu=insert_dict):
-                return '新编排剧本被创建', 201, []
-            else:
-                abort(500)
-        else:
-            abort(400)
+        param = parameter.param_json
+        parameter.verification(checking=param,
+                               verify={'title': str, 'script': str})
+        db.write_one_docu(docu=param)
+        return '新编排剧本被创建', 201, []
 
     elif parameter.method == 'PUT':
         return json.dumps(parameter.param_json, ensure_ascii=False), 200, []
