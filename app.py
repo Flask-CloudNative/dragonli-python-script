@@ -22,7 +22,7 @@ def api_script():
         parameter.verification(checking=param,
                                verify={'title': str, 'script': str})
         db.write_one_docu(docu=param)
-        return '新编排剧本被创建', 201, []
+        return '新编排剧本被创建', 201, [('Content-Type', 'text/plain; charset=utf-8')]
 
     elif parameter.method == 'PUT':
         return json.dumps(parameter.param_json, ensure_ascii=False), 200, []
