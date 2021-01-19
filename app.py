@@ -1,9 +1,11 @@
 import json
-from flask import Flask, request
+from flask import Flask, request, abort
 from rainbond_python.parameter import Parameter
 from rainbond_python.db_connect import DBConnect
+from rainbond_python.error_handler import error_handler
 
 app = Flask(__name__)
+error_handler(app)
 db = DBConnect(db='dragonli', collection='scripts')
 
 
@@ -22,9 +24,9 @@ def api_script():
             if db.write_one_docu(docu=insert_dict):
                 return '新编排剧本被创建', 201, []
             else:
-                return '编排剧本无法被创建', 500, []
+                abort(500)
         else:
-            return '请求参数错误', 400, []
+            abort(400)
 
     elif parameter.method == 'PUT':
         return json.dumps(parameter.param_json, ensure_ascii=False), 200, []
