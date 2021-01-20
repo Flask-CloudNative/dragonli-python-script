@@ -24,7 +24,14 @@ def api_script():
         return '新编排剧本被创建', 201, []
 
     elif parameter.method == 'PUT':
-        return json.dumps(parameter.param_json, ensure_ascii=False), 200, []
+        param = parameter.verification(checking=parameter.param_json,
+                                       verify={'id': str, 'title': str, 'script': str})
+        find_dict = {'_id': param['id']}
+        modify_dict = {
+            '$set': {'title': param['title'], 'script': param['script']}}
+        update_count = db.update_docu(
+            find_docu=find_dict, modify_docu=modify_dict)
+        return update_count, 200, []
 
     elif parameter.method == 'DELETE':
         return json.dumps(parameter.param_json, ensure_ascii=False), 200, []
