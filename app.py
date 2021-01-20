@@ -18,9 +18,8 @@ def api_script():
         return response
 
     elif parameter.method == 'POST':
-        param = parameter.param_json
-        parameter.verification(checking=param,
-                               verify={'title': str, 'script': str})
+        param = parameter.verification(checking=parameter.param_json,
+                                       verify={'title': str, 'script': str})
         db.write_one_docu(docu=param)
         return '新编排剧本被创建', 201, [('Content-Type', 'text/plain; charset=utf-8')]
 
