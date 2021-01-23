@@ -26,7 +26,7 @@ def api_script():
     elif parameter.method == 'PUT':
         param = parameter.verification(checking=parameter.param_json,
                                        verify={'id': str, 'title': str, 'script': str})
-        find_dict = {'_id': param['id']}
+        find_dict = {'id': param['id']}
         modify_dict = {
             '$set': {'title': param['title'], 'script': param['script']}}
         update_count = db.update_docu(
