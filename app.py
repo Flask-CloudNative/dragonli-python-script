@@ -15,13 +15,13 @@ def api_script():
 
     if parameter.method == 'GET':
         find_data = db.find_paging(parameter)
-        return find_data, 200, []
+        return find_data
 
     elif parameter.method == 'POST':
         param = parameter.verification(checking=parameter.param_json,
                                        verify={'title': str, 'script': str})
-        db.write_one_docu(docu=param)
-        return '新编排剧本被创建', 201, []
+        new_data = db.write_one_docu(docu=param)
+        return new_data, 201, []
 
     elif parameter.method == 'PUT':
         param = parameter.verification(checking=parameter.param_json,
@@ -31,10 +31,13 @@ def api_script():
             '$set': {'title': param['title'], 'script': param['script']}}
         update_count = db.update_docu(
             find_docu=find_dict, modify_docu=modify_dict)
-        return update_count, 200, []
+        return update_count
 
     elif parameter.method == 'DELETE':
-        return json.dumps(parameter.param_json, ensure_ascii=False), 200, []
+        param = parameter.verification(
+            checking=parameter.param_json, verify={'id': str})
+        delete_result = db.delete_docu(find_docu={'id': param['id']})
+        return delete_result
 
 
 if __name__ == '__main__':
