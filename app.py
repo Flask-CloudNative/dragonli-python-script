@@ -14,8 +14,11 @@ def api_script():
     parameter = Parameter(request)
 
     if parameter.method == 'GET':
-        find_data = db.find_paging(parameter)
-        return find_data
+        param = parameter.verification(
+            checking=parameter.param_url, verify={'search': str}, null_value=True)
+        find_dict = {'title': {'$regex': param['search']}}
+        find_data_list = db.find_docu(find_dict=find_dict)
+        return json.dumps(find_data_list)
 
     elif parameter.method == 'POST':
         param = parameter.verification(checking=parameter.param_json,
