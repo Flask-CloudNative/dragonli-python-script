@@ -1,12 +1,10 @@
 import json
-from flask_cors import CORS
 from flask import Flask, request, abort
 from rainbond_python.parameter import Parameter
 from rainbond_python.db_connect import DBConnect
 from rainbond_python.error_handler import error_handler
 
 app = Flask(__name__)
-CORS(app, supports_credentials=True)
 error_handler(app)
 db = DBConnect(db='dragonli', collection='scripts')
 
