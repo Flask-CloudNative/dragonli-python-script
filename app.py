@@ -39,7 +39,8 @@ def api_script():
     elif parameter.method == 'DELETE':
         param = parameter.verification(
             checking=parameter.param_json, verify={'id': str})
-        delete_result = db.delete_docu(find_docu={'id': param['id']})
+        delete_result = db.delete_docu(
+            find_docu={'id': param['id']}, false_delete=True)
         return delete_result
 
 
