@@ -30,8 +30,7 @@ def api_script():
         param = parameter.verification(checking=parameter.param_json,
                                        verify={'id': str, 'title': str, 'script': str})
         find_dict = {'id': param['id']}
-        modify_dict = {
-            '$set': {'title': param['title'], 'script': param['script']}}
+        modify_dict = {'title': param['title'], 'script': param['script']}
         update_count = db.update_docu(
             find_docu=find_dict, modify_docu=modify_dict)
         return update_count
