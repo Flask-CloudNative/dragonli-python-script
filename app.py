@@ -22,15 +22,15 @@ def api_script():
 
     elif parameter.method == 'POST':
         param = parameter.verification(checking=parameter.param_json,
-                                       verify={'title': str, 'script': str})
+                                       verify={'title': str, 'script': str, 'language': str}, optional={'language': 'auto'})
         new_data = db.write_one_docu(docu=param)
         return new_data, 201, []
 
     elif parameter.method == 'PUT':
         param = parameter.verification(checking=parameter.param_json,
-                                       verify={'id': str, 'title': str, 'script': str})
+                                       verify={'id': str, 'title': str, 'script': str, 'language': str}, optional={'language': 'auto'})
         find_dict = {'id': param['id']}
-        modify_dict = {'title': param['title'], 'script': param['script']}
+        modify_dict = {'title': param['title'], 'script': param['script'], 'language': param['language']}
         update_count = db.update_docu(
             find_docu=find_dict, modify_docu=modify_dict)
         return update_count
